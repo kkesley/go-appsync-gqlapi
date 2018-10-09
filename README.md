@@ -20,21 +20,21 @@ Mutation sends a post request to AppSync. It requires 2 arguments:
 example:
 
 ```golang
-    query := `
-		mutation ($message: String!) {
-			someMutation(
-				message: $message
-			){
-				message
-			}
-		}
-	`
-	variables := Response{
-		Message:    "Hello World!",
-	}
+query := `
+    mutation ($message: String!) {
+        someMutation(
+            message: $message
+        ){
+            message
+        }
+    }
+`
+variables := Response{
+    Message:    "Hello World!",
+}
 
-	_, err := client.Post(query, variables)
-	if err != nil {
-		return Response{}, err
-	}
+_, err := client.Post(query, variables)
+if err != nil {
+    return Response{}, err
+}
 ```
