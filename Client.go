@@ -21,15 +21,17 @@ type Client struct {
 }
 
 //New generate new client
-func (c Client) New(url string, region string) {
-	c.client = new(http.Client)
-	c.appsyncURL = url
-	c.region = region
+func New(url string, region string) Client {
 	config := aws.Config{
 		Region: aws.String("ap-southeast-1"),
 	}
 	sess := session.Must(session.NewSession(&config))
-	c.signer = v4.NewSigner(sess.Config.Credentials)
+	return Client{
+		client:     new(http.Client),
+		appsyncURL: url,
+		region:     region,
+		signer:     v4.NewSigner(sess.Config.Credentials),
+	}
 }
 
 //Post make a POST request to AppSync for mutation
