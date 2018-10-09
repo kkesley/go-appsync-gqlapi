@@ -23,9 +23,19 @@ type Client struct {
 //New generate new client
 func New(url string, region string) Client {
 	config := aws.Config{
-		Region: aws.String("ap-southeast-1"),
+		Region: aws.String(region),
 	}
 	sess := session.Must(session.NewSession(&config))
+	return Client{
+		client:     new(http.Client),
+		appsyncURL: url,
+		region:     region,
+		signer:     v4.NewSigner(sess.Config.Credentials),
+	}
+}
+
+//NewWithSession generate new client with existing session
+func NewWithSession(url string, region string, sess *session.Session) Client {
 	return Client{
 		client:     new(http.Client),
 		appsyncURL: url,
